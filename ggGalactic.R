@@ -60,6 +60,8 @@ ggGalactic<-function(){
     plot.subtitle=element_text(family=font,size=22,color=gpPal[5]),
     axis.title=element_text(family=font,size=28,face="bold",color=gpPal[6]),
     axis.text=element_text(family=font,size=18,color=gpPal[6]),
+    axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(margin = margin(t = 20, r = 10, b = 0, l = 0)),
     legend.text=element_text(family=font,color=gpPal[6]),
     legend.title=element_text(family=font,color=gpPal[6]),
     legend.position = "top", legend.text.align = 0, legend.background =element_blank()
