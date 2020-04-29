@@ -35,6 +35,7 @@ gpPal2=c(
   "#cb1f8e",   #5c complementary green
   "#090816", #6 Galactic Black
   "#f0f4ff" #7 Sparkle White
+  
   )
 
 #Show the GP palette
@@ -55,6 +56,7 @@ ggGalactic<-function(){
   font="Montserrat"
   fam="Montserrat"
   font_add_google(name=font,family=fam)
+  
   theme_linedraw()+theme(
     plot.title=element_text(family=font,size=30,face="bold",color=gpPal[6]),
     plot.subtitle=element_text(family=font,size=22,color=gpPal[5]),
@@ -64,6 +66,6 @@ ggGalactic<-function(){
     axis.title.y = element_text(margin = margin(t = 20, r = 10, b = 0, l = 0)),
     legend.text=element_text(family=font,color=gpPal[6]),
     legend.title=element_text(family=font,color=gpPal[6]),
-    legend.position = "top", legend.text.align = 0, legend.background =element_blank()
+    legend.position = "right", legend.text.align = 0, legend.background =element_blank()
   )
 }
