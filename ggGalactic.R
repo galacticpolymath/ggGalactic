@@ -1,6 +1,7 @@
 #Some code modified from https://bbc.github.io/rcookbook/#how_to_create_bbc_style_graphics
 if(!require(pacman))install.packages("pacman")
-pacman::p_load(ggplot2,showtext,viridis,scales)
+pacman::p_load(ggplot2,sysfonts,viridis,scales,showtext)
+showtext_auto()
 #GP Palette
 gpPal=c(
   "#2c83c3", #1 Hydrogen Blue
@@ -50,22 +51,23 @@ show.gpPal<-function(pal=1,x){
 #These are default shapes
 gpShps<-c(21,24,22,23,8,13,9)
 plot(0:length(gpShps),0:length(gpShps),pch=gpShps,cex=2,xlim=c(-1,length(gpShps)+1),ylim=c(-1,length(gpShps)+1))
+  
+font="Montserrat"
+  fam=font
+  font_add_google(name=font,family=fam)
 
 ggGalactic<-function(){
-  
   font="Montserrat"
-  fam="Montserrat"
-  font_add_google(name=font,family=fam)
-  
-  theme_linedraw()+theme(
+theme_linedraw()+theme(
+    text=element_text(family=font),
     plot.title=element_text(family=font,size=30,face="bold",color=gpPal[6]),
     plot.subtitle=element_text(family=font,size=22,color=gpPal[5]),
     axis.title=element_text(family=font,size=28,face="bold",color=gpPal[6]),
     axis.text=element_text(family=font,size=18,color=gpPal[6]),
     axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(margin = margin(t = 20, r = 10, b = 0, l = 0)),
-    legend.text=element_text(family=font,color=gpPal[6]),
-    legend.title=element_text(family=font,color=gpPal[6]),
+    legend.text=element_text(family=font,color=gpPal[6],size=18),
+    legend.title=element_text(family=font,color=gpPal[6],face="bold",size=18),
     legend.position = "right", legend.text.align = 0, legend.background =element_blank()
   )
 }
