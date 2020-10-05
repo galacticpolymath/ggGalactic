@@ -1,6 +1,6 @@
 #Some code modified from https://bbc.github.io/rcookbook/#how_to_create_bbc_style_graphics
 if(!require(pacman))install.packages("pacman")
-pacman::p_load(ggplot2,sysfonts,viridis,scales,showtext)
+pacman::p_load(ggplot2,sysfonts,viridis,scales,showtext,png,RCurl,grid,tidyverse)
 showtext_auto()
 #GP Palette
 gpPal=c(
@@ -71,3 +71,45 @@ theme_linedraw()+theme(
     legend.position = "right", legend.text.align = 0, legend.background =element_blank()
   )
 }
+
+gpLogo<-function(ggObj,xNPC=.9,yNPC=.9,which="horiz_logoWords_GradWhite",size=.1,cloudinaryString=NULL){
+  logoFile=switch(which,
+    grad_logo_gradTrans="https://res.cloudinary.com/galactic-polymath/image/upload/v1593304396/logos/GP_logo_grad_transBG_300_tbn4ei.png",
+    grad_logo_gradWhite="https://res.cloudinary.com/galactic-polymath/image/upload/b_white/v1593304396/logos/GP_logo_grad_transBG_300_tbn4ei.png",
+    horiz_logoWords_gradTrans="https://res.cloudinary.com/galactic-polymath/image/upload/v1593304395/logos/GP_logo_wordmark_horiz_grad_transBG_300_lqdj7q.png",
+    horiz_logoWords_gradWhite="https://res.cloudinary.com/galactic-polymath/image/upload/b_white/v1593304395/logos/GP_logo_wordmark_horiz_grad_transBG_300_lqdj7q.png",
+    horiz_logoWords_whiteAblue="https://res.cloudinary.com/galactic-polymath/image/upload/v1593316226/logos/GP_logo_wordmark_horiz_white_aBlueBG_300_qmuas0.png",
+    horiz_logoWords_whiteBlack="https://res.cloudinary.com/galactic-polymath/image/upload/v1594949366/logos/GP_logo_wordmark_horiz_white_blackBG_600_buwnlf.png",
+    "Error"
+  )
+  
+  if(logoFile=="Error"){stop("That's not one of the logo file options")}
+  
+  #Handle additional cloudinary parameters
+  if(!is.null(cloudinaryString)){
+    #test if already Cloudinary string in URL
+    noCloudString=str_detect(logoFile,"upload\\/v")
+    
+    if(noCloudString){
+    #Add strings
+    splitStr<-str_split(logoFile,"upload\\/v",simplify=T)
+    newURL<-paste0(splitStr[1],"upload/",cloudinaryString,"/v",splitStr[2])
+    }else{
+    #Add to existing strings
+    extractStr0<-str_extract(logoFile,"upload\\/.*\\/v")
+    extractStr<-gsub("/v","",extractStr0)
+    splitStr<-str_split(logoFile,"upload\\/.*\\/v",simplify=T)
+    newURL<-paste0(splitStr[1],extractStr,",",cloudinaryString,"/v",splitStr[2])
+    }
+  }else{newURL<-logoFile}
+  
+  #read in logo
+  "https://res.cloudinary.com/galactic-polymath/image/upload/v1593317568/GP_logo_wordmark_horiz_white_blackBG_600_fjj1ii.png"
+  logoImg<-readPNG(getURLContent(newURL))
+ 
+   
+   ggObj+annotation_custom(rasterGrob(logoImg,x=unit(xNPC,"npc"),y=unit(yNPC,"npc"),height=unit(size,"npc")))+if(xNPC>1|yNPC>1|xNPC<0|yNPC<0){coord_cartesian(clip = "off")}else{}
+   
+}
+  
+
